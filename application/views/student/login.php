@@ -1,93 +1,15 @@
-<!-- <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>SPPS-APP | Login</title>
-
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
-  <link rel="icon" type="image/png" href="<?php echo media_url('ico/favicon.ico') ?>">
-
-  <link href="<?php echo media_url() ?>css/bootstrap.min.css" rel="stylesheet" />
-  <link href="<?php echo media_url() ?>css/font-awesome.min.css" rel="stylesheet" />
-  <link href="<?php echo media_url() ?>css/login.css" rel="stylesheet" />
-</head>
-<body>
-
-
-  <div class="row">
-  <a href="<?=base_url()?>">
-    <div class="col-md-5">
-      
-        <div class="logo hidden-xs hidden-sm">
-        <?php if (isset($setting_logo) AND $setting_logo['setting_value'] == NULL) { ?>
-        <img src="<?php echo media_url('img/logo.svg') ?>" class="img-responsive">
-        <?php } else { ?>
-        <img src="<?php echo upload_url('school/' . $setting_logo['setting_value']) ?>" class="img-responsive">
-        <?php } ?>
-      </div>
-      
-      <p class="merk"><span style="color: #2ABB9B">SPPS</span> APP</p> 
-      <?php if (isset($setting_school) AND $setting_school['setting_value'] == '-') { ?>
-      <p class="school">Sistem Pembayaran Pendidikan Sekolah</p> 
-      <?php } else { ?>
-      <p class="school"><?php echo $setting_school['setting_value'] ?></p> 
-      <?php } ?> 
-    </div>
-    </a>
-    <div class="col-md-7">
-      <div class="box">
-        <?php echo form_open('student/auth/login', array('class'=>'login100-form validate-form')); ?>
-
-        <div class="col-md-12">
-          <p class="title-login">Siswa Login</p>
-          <?php if ($this->session->flashdata('failed')) { ?>
-          <br><br>
-        <div class="alert alert-danger alert-dismissible" style="margin-top: -85px !important;">
-          <h5><i class="fa fa-close"></i> NIS atau Password salah!</h5>
-        </div>
-        <?php  }  ?>
-          <div class="row">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>NIS</label>
-                <input type="text" required="" autofocus="" name="nis" placeholder="Masukan NIS" class="form-control flat">
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                <label>Password</label>
-                <input type="password" required="" name="password" placeholder="Masukan password" class="form-control flat">
-              </div>
-            </div>
-          </div>
-          <button class="btn btn-login">Login</button>
-        </div>
-        <?php echo form_close(); ?>
-      </div>
-    </div>
-  </div>
-
-
-</body>
-</html> -->
-
 <!-- Mod by Masipnu @2025 -->
 
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="utf-8">
   <title>SPPS-APP | Login Siswa</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <link rel="icon" type="image/png" href="http://localhost/spps/media/ico/favicon.ico">
-  <link href="http://localhost/spps/media/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="http://localhost/spps/media/css/font-awesome.min.css" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="<?= media_url('ico/favicon.ico') ?>">
+  <link href="<?= media_url('css/bootstrap.min.css') ?>" rel="stylesheet" />
+  <link href="<?= media_url('css/font-awesome.min.css') ?>" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
@@ -216,26 +138,36 @@
 <body>
 
   <div class="container-login">
-    <a href="http://localhost/spps/" class="left-panel">
-      <img src="http://localhost/spps/uploads/school/MI_Salafiyah_Kembangsawit1.png" alt="Logo Sekolah">
-      <!-- <p class="merk"><span style="color: #2ABB9B;">SPPS</span> APP</p> -->
+    <a href="<?= base_url() ?>" class="left-panel">
+      <?php if (!empty($setting_logo['setting_value'])): ?>
+        <img src="<?= upload_url('school/' . $setting_logo['setting_value']) ?>" alt="Logo Sekolah">
+      <?php else: ?>
+        <img src="<?= media_url('img/logo.svg') ?>" alt="Logo Sekolah Default">
+      <?php endif; ?>
       <p class="merk"><span>SPPS</span> APP</p>
-      <p class="school">MI Salafiyah Kembangsawit</p>
+      <p class="school"><?= !empty($setting_school['setting_value']) ? $setting_school['setting_value'] : 'Sistem Pembayaran Pendidikan Sekolah' ?></p>
     </a>
 
     <div class="right-panel">
-      <form action="http://localhost/spps/student/auth/login" method="post">
+      <?= form_open('student/auth/login', ['method' => 'post']) ?>
         <p class="title-login">Login Siswa</p>
+
+        <?php if ($this->session->flashdata('failed')): ?>
+          <div class="alert alert-danger">
+            <i class="fa fa-exclamation-circle"></i> NIS atau Password salah!
+          </div>
+        <?php endif; ?>
+
         <div class="form-group">
-          <label>NIS</label>
+          <label for="nis">NIS</label>
           <input type="text" name="nis" class="form-control" placeholder="Masukan NIS" required autofocus>
         </div>
         <div class="form-group">
-          <label>Password</label>
+          <label for="password">Password</label>
           <input type="password" name="password" class="form-control" placeholder="Masukan password" required>
         </div>
         <button type="submit" class="btn btn-login">Login</button>
-      </form>
+      <?= form_close() ?>
     </div>
   </div>
 
